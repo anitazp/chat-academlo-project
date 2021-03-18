@@ -1,4 +1,4 @@
-import { LOGIN_CHAT_SUCCES, SIGNUP_CHAT_SUCCES } from '../actions/chatAction'
+import { LOGIN_CHAT_SUCCES, LOG_OUT, SIGNUP_CHAT_SUCCES } from '../actions/chatAction'
 
 const INITAL_STATE = {
     username: null,
@@ -27,7 +27,14 @@ export const loginAndSignup = (state = INITAL_STATE, action) => {
                 token: action.payload.token,
                 isLoading: false
             }
-
+        case LOG_OUT:
+            return {
+                ...state,
+                username: null,
+                id: null,
+                token: null,
+                isLoading: false
+            }
         default:
             return state
     }

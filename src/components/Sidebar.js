@@ -5,8 +5,6 @@ import { styles } from './styles'
 
 const Sidebar = () => {
     const classes = styles()
-    // const [room, setRoom] = useState([])
-    // const [listUsers, setListUsers] = useState([])
 
     const roomData = useSelector(reducer => reducer.chat.chatRoom)
 

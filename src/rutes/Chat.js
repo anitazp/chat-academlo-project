@@ -29,7 +29,6 @@ const Chat = ({location}) => {
 
     const message = datsReducers.chat.message
     const isLoading = datsReducers.chat.isLoading
-    // const isLeave = datsReducers.chat.isLeave
 
 
     useEffect(() => {
@@ -45,21 +44,17 @@ const Chat = ({location}) => {
             })
         }
 
-        return () => {
-            socket.on('disconnect', () => {})
-            socket.off()
-        }
     }, [token, location.search])
 
 
     useEffect(() => {
-        socket.on('message', (message) => {
-            dispatch(messagesLogAction(message))
-        })
-
-        socket.on('roomData', (data) => {
-            dispatch(chatLogAction(data))
-        })
+            socket.on('message', (message) => {
+                dispatch(messagesLogAction(message))
+            })
+    
+            socket.on('roomData', (data) => {
+                dispatch(chatLogAction(data))
+            })
     }, [dispatch])
 
     useEffect(() => {

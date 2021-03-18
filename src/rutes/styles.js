@@ -44,6 +44,11 @@ const styles = makeStyles(() => ({
     },
     link: {
         textDecoration: "none"
+    },
+    fixed: {
+        position: 'fixed',
+        right: "20px",
+        top: "20px"
     }
 }))
 

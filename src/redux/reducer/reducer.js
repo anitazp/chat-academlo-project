@@ -32,14 +32,14 @@ export const chatReducer = (state = INITIAL_STATE, action) => {
                 ...state,
                 message: action.payload
             }
-        case LEAVE_ROOM_CHAT: {
+        case LEAVE_ROOM_CHAT:
             return {
                 ...state,
                 message: null,
                 chatRoom: [],
                 messages: [],
+                isLoading: false,
             }
-        }
         default:
             return state
     }

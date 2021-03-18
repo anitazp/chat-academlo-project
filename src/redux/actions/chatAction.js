@@ -1,8 +1,7 @@
 import axios from 'axios'
-
+import { saveSession } from './sessionStorage'
 
 export const JOIN_ROOM_SUCCES = "JOIN_ROOM_SUCCES"
-
 
 export const SIGNUP_CHAT_SUCCES = "SIGNUP_CHAT_SUCCES"
 export const SIGNUP_CHAT_ERROR = "SIGNUP_CHAT_ERROR"
@@ -16,7 +15,8 @@ export const DATA_MESSAGES_CHAT = "DATA_MESSAGES_CHAT"
 export const SEND_MESSAGE_CHAT = "SEND_MESSAGE_CHAT"
 
 export const LEAVE_ROOM_CHAT = "LEAVE_ROOM_CHAT"
-
+export const LOG_OUT = "LOG_OUT"
+export const JOIN_CHAT = "JOIN_CHAT"
 
 
 export const chatLogAction = (data) => {
@@ -39,6 +39,18 @@ export const leaveRoomAction = () => {
     }
 } 
 
+export const logOutAction = () => {
+    return {
+        type: LOG_OUT
+    }
+}
+
+export const joinAction = () => {
+    return {
+        type: JOIN_CHAT
+    }
+}
+
 export const sendMessageAction = (message) => {
     return {
         type: SEND_MESSAGE_CHAT,
@@ -54,16 +66,15 @@ export const loginChatAction = (email, password) => {
             password
         })
         res.then(({data}) => {
-            dispatch({
-                type: LOGIN_CHAT_SUCCES,
-                payload: data.user
-            })
+            dispatch(saveSession(data))
         })
         .catch((err) => {
             console.log(err)
         }) 
     }
 }
+
+
 
 
 
@@ -84,8 +95,8 @@ export const signupChatLogin = (email, username, password) => {
             console.log(err)
         }) 
     }
-
-            
-
-                
+    
+    
+    
+    
 }

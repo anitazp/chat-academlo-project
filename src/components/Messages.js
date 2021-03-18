@@ -15,10 +15,6 @@ const Messages = ({message: {user, text}}) => {
     if(user === trimName) {
         isSend = true
     }
-    // <div className={classes.getText}>
-    //                     <Typography variant="subtitle1" color="initial" >{text} <span>{user}</span> </Typography>
-    //                 </div>
-    // style={{display: "inline-block", backgroundColor: "grey", padding: '10px'}}
 
     return (
         isSend ? (
