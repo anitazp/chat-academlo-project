@@ -1,21 +1,38 @@
-import { Container, TextField } from '@material-ui/core'
-import React from 'react'
-import { styles } from './styles'
+import { Container, TextField, ThemeProvider } from '@material-ui/core'
+import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
+import { sendMessageAction } from '../redux/actions/chatAction'
+import { styles, theme } from './styles'
 
-const InputMessage = ({setMessage, message, handleSendMessage}) => {
+const InputMessage = () => {
     const classes = styles()
-    // const [messages, setMessages] = useState({})
-    // const [input, setInput] = useState("")
+    const themes = theme
+    const [message, setMessage] = useState('')
+
+    const dispatch = useDispatch()
+
+    const handleSendMessage = () => {
+        dispatch(sendMessageAction(message))
+        setMessage('')
+    }
+
 
     
     return (
         <Container className={classes.inputMessage}>
+            <ThemeProvider theme={themes}>
                 <TextField
-                label="message"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyPress={event => event.key === 'Enter' ? handleSendMessage(event) : null}
+                    label="message"
+                    color="secondary"
+                    variant="outlined"
+                    multiline
+                    rows={1}
+                    fullWidth
+                    value={message}
+                    onChange={(e) => setMessage(e.target.value)}
+                    onKeyPress={value => value.key === "Enter" ? handleSendMessage() : null}
                 />
+            </ThemeProvider>
         </Container>
     )
 }

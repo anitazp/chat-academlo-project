@@ -9,7 +9,14 @@ const styles = makeStyles(() => ({
         alignItems: "center",
     },
     backGround: {
-        background: "linear-gradient(90deg, rgba(141,110,99,1) 0%, rgba(162,142,135,1) 50%, rgba(141,110,99,1) 100%)"
+        background: "linear-gradient(90deg, rgba(189,189,189,1) 0%, rgba(237,237,237,1) 50%, rgba(189,189,189,1) 100%)",
+        height: "100vh"
+    },
+    loading: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        height: "100vh"
     },
     card: {
         width: "400px",
@@ -24,19 +31,28 @@ const styles = makeStyles(() => ({
         padding: "10px"
     },
     title: {
-        color: '#795548'
+        color: '#5B00A6',
+        marginBottom: '20px'
     },
     // chat
     grid: {
         display: "flex"
     },
+    users: {
+        marginBottom: "20px",
+        textAlign: 'center',
+        color: "#bfbfbf"
+    },
+    link: {
+        textDecoration: "none"
+    }
 }))
 
 const theme = createMuiTheme({
     palette: {
         secondary: {
-            light: '#0066ff',
-            main: brown[600],
+            light: '#EBE51E',
+            main: "#4D00FF",
         }
     }
 })

@@ -1,82 +1,96 @@
-import { Container, Grid } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
+import { Grid, LinearProgress, ThemeProvider } from '@material-ui/core'
+import React, { useEffect } from 'react'
 import ChatContainer from '../components/ChatContainer'
 import InputMessage from '../components/InputMessage'
 import Sidebar from '../components/Sidebar'
-import { styles } from './styles'
+import { styles, theme } from './styles'
 
 import queryString from 'query-string'
 
 import io from 'socket.io-client'
+
+import { chatLogAction, messagesLogAction } from '../redux/actions/chatAction'
+import { useDispatch, useSelector } from 'react-redux'
 
 
 let socket
 
 const Chat = ({location}) => {
     const classes = styles()
-    const [isName, setIsName] = useState('')
-    const [isRoom, setIsRoom] = useState('')
-    const [message, setMessage] = useState('')
-    const [messages, setMessages] = useState([])
-    const [roomData, setRoomData] = useState([])
+    const themes = theme
 
     const BASE_URL = 'https://academlo-chat.herokuapp.com';
 
-     
+    const dispatch = useDispatch()
+
+    const datsReducers = useSelector(reducers => reducers)
+
+    const token  = datsReducers.datsMethod.token
+
+    const message = datsReducers.chat.message
+    const isLoading = datsReducers.chat.isLoading
+    const isLeave = datsReducers.chat.isLeave
 
 
     useEffect(() => {
-        const { name, room } = queryString.parse(location.search)
+        const {name, room} = queryString.parse(location.search)
 
-        setIsName(name)
-        setIsRoom(room)
+        if(token) {
+           socket = io(BASE_URL, {
+                query: {token: token}
+            })
 
-        socket = io(BASE_URL)
-        
-        socket.emit('join', { name, room}, () => {
+            socket.emit('join', {name, room}, () => {
 
-        })
+            })
+        }
 
         return () => {
-            socket.emit('disconnect')
+            socket.on('disconnect', () => {})
             socket.off()
         }
-    }, [BASE_URL ,location.search])
+    }, [token, location.search])
 
 
     useEffect(() => {
         socket.on('message', (message) => {
-            setMessages([...messages, message])
+            dispatch(messagesLogAction(message))
         })
 
         socket.on('roomData', (data) => {
-            setRoomData(data)
+            dispatch(chatLogAction(data))
         })
-    }, [messages])
+    }, [dispatch])
 
-
-    const handleSendMessage = (event) => {
-        event.preventDefault()
-
-
+    useEffect(() => {
         if(message) {
-            socket.emit('sendMessage', message, () => setMessage(''))
+            socket.emit('sendMessage', message, () => {})
         }
-    } 
+    }, [message])
+
+
+
 
 
     return (
-        <Container>
-            <Grid className={classes.grid}>
-                <Grid item xs={2}>
-                    <Sidebar roomData={roomData} room={isRoom}/>    
+        <div className={classes.backGround}>
+            <ThemeProvider theme={themes}>
+            {
+                isLoading ?
+                <LinearProgress color="secondary" variant="indeterminate"/>
+                :
+                <Grid className={classes.grid}>
+                    <Grid item xs={3} lg={2} md={2} sm={3} xl={2}>
+                        <Sidebar />  
+                    </Grid>
+                    <Grid item xs={9} lg={10} md={10} sm={9} xl={10}>
+                        <ChatContainer />
+                        <InputMessage />
+                    </Grid>
                 </Grid>
-                <Grid item xs={10}>
-                    <ChatContainer messages={messages} name={isName}/>
-                    <InputMessage setMessage={setMessage} message={message} handleSendMessage={handleSendMessage} />
-                </Grid>
-            </Grid>
-        </Container>
+            }
+            </ThemeProvider>
+        </div>
     )
 }
 
