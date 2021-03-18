@@ -1,4 +1,3 @@
-import { brown } from '@material-ui/core/colors'
 import { createMuiTheme, makeStyles } from '@material-ui/core/styles'
 
 const styles = makeStyles(() => ({

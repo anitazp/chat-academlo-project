@@ -29,7 +29,7 @@ const Chat = ({location}) => {
 
     const message = datsReducers.chat.message
     const isLoading = datsReducers.chat.isLoading
-    const isLeave = datsReducers.chat.isLeave
+    // const isLeave = datsReducers.chat.isLeave
 
 
     useEffect(() => {
